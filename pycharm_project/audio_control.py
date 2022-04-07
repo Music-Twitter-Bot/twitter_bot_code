@@ -23,7 +23,7 @@ class AudioControl:
         """
         generated_notes = []
         for i in range(len(list_of_semitones)):
-            note = self.generate_wave(self.get_frequency(list_of_semitones(i)), list_of_durations(i))
+            note = self.generate_wave(self.get_frequency(list_of_semitones[i]), list_of_durations[i])
             generated_notes.append(note)
 
         #output generated notes
@@ -35,7 +35,8 @@ class AudioControl:
                         output=True)
 
         # play. May repeat with different volume values (if done interactively)
-        stream.write(volume * generated_notes)
+        for j in generated_notes:
+            stream.write(volume * j)
 
         stream.stop_stream()
         stream.close()
