@@ -22,6 +22,8 @@ class AudioControl:
         :param text: The text to convert.
         :return: Nothing.
         """
+        print(f"Converting \"{text}\" into a wav file ...")
+
         #find the words in text
         words = []
         last_space = False
@@ -39,10 +41,11 @@ class AudioControl:
         for word in words:
             notes.append(self.convert_word_to_semitones(word))
             durations.append(2/len(word))
-            print(f"{notes}, {durations}")
 
         #play the notes
         self.generate_sound(notes, durations)
+
+        print("Converted.")
 
 
     def convert_word_to_semitones(self, word):
@@ -64,15 +67,9 @@ class AudioControl:
         :return: an array with the resulting sine waves ordered
         """
         generated_notes = []
-        print("hi")
-        print(f"{range(len(list_of_semitones))}")
-        print(f"{list_of_semitones}, {list_of_durations}")
         for i in range(len(list_of_semitones)):
-            print("i")
             for j in range(len(list_of_semitones[i])):
-                print("j")
                 note = self.generate_wave(self.get_frequency(list_of_semitones[i][j]), list_of_durations[i])
-                print(f"i: {i}, j: {j}, semitone: {list_of_semitones[i][j]}, duration: {list_of_durations[i]}")
                 generated_notes.append(note)
             #generate a rest
             rest = self.generate_wave(0, 0.5)
