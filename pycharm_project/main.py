@@ -1,16 +1,8 @@
 import ffmpy
-from audio_control import AudioControl
-
-import ffmpeg
-from ffmpy import FFmpeg
+from tweet_setup import BotTweet
 
 
-a = AudioControl(440, 44100, 20, "a")
-a.convert_text_to_wav("Hello how are you today?!")
-
-#convert wav to mp4
-audio_file = "sound_full.wav"
-image_file = "image.jpg"
-ff = ffmpy.FFmpeg(executable='ffmpeg/ffmpeg.exe', inputs={'sound_full.wav': None}, outputs={'video.mp4': ["-filter:a", "atempo=0.5"]})
-ff.run()
+b = BotTweet("frZgEer7fVrrTaHGCOaY10M27","SaqIyGlDOpvsEbftNhz97ZappkACGS0oWcsTCmnd8wMT6VWKcY",
+             "1511429719530508289-pP9lESc7bGfO3Alyd4xgJSnHDyMDB5","phgnSuaceGlrSuZ4Sl3FbMcLgC0G8Zg9CXMB6ZKuy0yIy")
+b.generate_tweet()
 
