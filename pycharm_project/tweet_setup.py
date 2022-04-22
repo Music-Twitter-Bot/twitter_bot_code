@@ -20,7 +20,6 @@ class BotTweet:
 
     def generate_tweet(self):
         """
-
         :return:
         """
         api = self.connect_to_twitter()
@@ -67,11 +66,11 @@ class BotTweet:
         print(f"{text}")
         return tweet, text
 
-    def upload_tweet(self, api, video_name):
+    def upload_tweet(self, api, video_name, text):
         """
         :param api:
         :param video_name: The video file name
         :return:
         """
-        api.media_upload(video_name)
-        # self.connect_to_twitter().update_status(media_ids, attachment_url=tweet_url)
+        video = api.media_upload(video_name)
+        api.update_status(status=text, media_ids=[video.media_id_string])
