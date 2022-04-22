@@ -10,6 +10,7 @@ class TextControl:
         :param max_time: the maximum length of the resulting sound clip
         :param c0: the base character for the ascii
         """
+        self.max_time = max_time
         self.audio_control = AudioControl(f0, r, max_time)
         self.c0 = c0
 
@@ -34,6 +35,7 @@ class TextControl:
                 words.append(text)
 
         #determine the duration of each note and each rest
+        word_length = self.max_time/(len(words)*1.25)
 
         #convert words to notes
         notes = []
@@ -41,10 +43,10 @@ class TextControl:
         for word in words:
             if len(word) != 0:
                 notes.append(self.convert_word_to_semitones(word))
-                durations.append(1/len(word))
+                durations.append(word_length/len(word))
 
         #play the notes
-        self.audio_control.generate_sound(notes, durations, wav_name)
+        self.audio_control.generate_sound(notes, durations, wav_name, word_length/4)
 
         print("Converted.")
 

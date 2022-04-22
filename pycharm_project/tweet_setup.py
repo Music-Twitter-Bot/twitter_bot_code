@@ -62,7 +62,7 @@ class BotTweet:
         :return: The tweet information.
         :return: The text extracted from the retrieved tweet.
         """
-        search_results = api.search_tweets(q="bts -filter:links -filter:retweets", lang="en", count=1)
+        search_results = api.search_tweets(q="hello -filter:links -filter:retweets", lang="en", count=1)
         for i in search_results:
             tweet = i
             text = tweet.text
@@ -76,7 +76,7 @@ class BotTweet:
         :return:
         """
         #reformat the text so that it is a tweet from the music bot
-        text = f"Beep boop. I am a 2140 music bot. I've converted the following tweet into music:\n\n{text}"
+        text = f"Beep boop. I am a 2140 music bot. I've converted the following tweet into music, mapping it to a major scale centering around 440 Hz:\n\n{text}"
         video = api.media_upload(video_name, chunked=True, media_category="tweet_video")
         time.sleep(5)
         api.update_status(status=text, media_ids=[video.media_id_string])
