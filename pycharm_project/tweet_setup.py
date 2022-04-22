@@ -21,7 +21,8 @@ class BotTweet:
 
     def generate_tweet(self):
         """
-        :return:
+        Generates the tweet.
+        :return: None.
         """
         api = self.connect_to_twitter()
         tweet, text = self.find_tweet(api)
@@ -29,7 +30,7 @@ class BotTweet:
 
         wav_name = "sound2.wav"
         mp4_name = "video1.mp4"
-        image_file = "image.jpg"
+        image_file = "pythonprofilepic.jpg"
         self.text_control.convert_text_to_wav(text, wav_name)
         print("Converted text to .wav.")
 
@@ -58,6 +59,7 @@ class BotTweet:
 
     def find_tweet(self, api):
         """
+        Searches for a tweet.
         :param api:
         :return: The tweet information.
         :return: The text extracted from the retrieved tweet.
@@ -71,13 +73,14 @@ class BotTweet:
 
     def upload_tweet(self, api, video_name, text):
         """
+        Uploads the tweet with media.
         :param api:
         :param video_name: The video file name
-        :return:
+        :param text:
+        :return: None.
         """
         #reformat the text so that it is a tweet from the music bot
         text = f"Beep boop. I am a 2140 music bot. I've converted the following tweet into music, mapping it to a major scale centering around 440 Hz:\n\n{text}"
         video = api.media_upload(video_name, chunked=True, media_category="tweet_video")
         time.sleep(5)
         api.update_status(status=text, media_ids=[video.media_id_string])
-
