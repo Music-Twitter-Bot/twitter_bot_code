@@ -33,12 +33,15 @@ class TextControl:
                 last_space = True
                 words.append(text)
 
+        #determine the duration of each note and each rest
+
         #convert words to notes
         notes = []
         durations = []
         for word in words:
-            notes.append(self.convert_word_to_semitones(word))
-            durations.append(2/len(word))
+            if len(word) != 0:
+                notes.append(self.convert_word_to_semitones(word))
+                durations.append(1/len(word))
 
         #play the notes
         self.audio_control.generate_sound(notes, durations, wav_name)

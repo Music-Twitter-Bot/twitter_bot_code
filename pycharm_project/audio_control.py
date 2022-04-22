@@ -28,7 +28,7 @@ class AudioControl:
                 note = self.generate_wave(self.get_frequency(list_of_semitones[i][j]), list_of_durations[i])
                 generated_notes.append(note)
             #generate a rest
-            rest = self.generate_wave(0, 0.5)
+            rest = self.generate_wave(0, 0.25)
             generated_notes.append(rest)
 
         wav = wave.open(wav_name, 'w')
@@ -55,6 +55,10 @@ class AudioControl:
         :param n: number of semitones from f0
         :return: the frequency of n
         """
+        if n > 0:
+            n = n % 12
+        else:
+            n = n % -12
         return self.f0 * (2 ** (n/12))
 
 

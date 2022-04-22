@@ -1,5 +1,6 @@
 import ffmpy
 import tweepy
+import time
 from text_control import TextControl
 
 
@@ -26,19 +27,19 @@ class BotTweet:
         tweet, text = self.find_tweet(api)
         print("Found tweet.")
 
-        wav_name = "sound1.wav"
-        mp4_name = "video.mp4"
+        wav_name = "sound2.wav"
+        mp4_name = "video1.mp4"
         image_file = "image.jpg"
         self.text_control.convert_text_to_wav(text, wav_name)
         print("Converted text to .wav.")
 
         # convert wav to mp4
-        ff = ffmpy.FFmpeg(executable='ffmpeg/ffmpeg.exe', inputs={wav_name: None},
-                          outputs={mp4_name: ["-filter:a", "atempo=0.5"]})
+        ff = ffmpy.FFmpeg(executable='ffmpeg/ffmpeg.exe', inputs={wav_name: None, image_file: None},
+                          outputs={mp4_name: ["-filter:a", "atempo=1"]})
         ff.run()
         print("Converted .wav to .mp4.")
 
-        self.upload_tweet(api, mp4_name)
+        self.upload_tweet(api, mp4_name, text)
         print("Tweet generated!")
 
     def connect_to_twitter(self):
@@ -61,9 +62,11 @@ class BotTweet:
         :return: The tweet information.
         :return: The text extracted from the retrieved tweet.
         """
-        tweet = api.search_tweets(q="-filter:links -filter:retweets", tweet_mode="extended", lang="en", count=1)
-        text = str(tweet.text)
-        print(f"{text}")
+        search_results = api.search_tweets(q="bts -filter:links -filter:retweets", lang="en", count=1)
+        for i in search_results:
+            tweet = i
+            text = tweet.text
+            print(f"{text}")
         return tweet, text
 
     def upload_tweet(self, api, video_name, text):
@@ -72,5 +75,9 @@ class BotTweet:
         :param video_name: The video file name
         :return:
         """
-        video = api.media_upload(video_name)
+        #reformat the text so that it is a tweet from the music bot
+        text = f"Beep boop. I am a 2140 music bot. I've converted the following tweet into music:\n\n{text}"
+        video = api.media_upload(video_name, chunked=True, media_category="tweet_video")
+        time.sleep(5)
         api.update_status(status=text, media_ids=[video.media_id_string])
+
